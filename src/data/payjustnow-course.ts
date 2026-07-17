@@ -192,7 +192,6 @@ export const courseData = {
     imageAlt: "Wrap-up checklist surrounded by pink bubbles",
   },
   footer: {
-    message: "You’ve completed the PayJustNow course.",
     buttonLabel: "Return to People Connect",
     // TODO: Replace with the final People Connect return URL.
     peopleConnectUrl: "#",

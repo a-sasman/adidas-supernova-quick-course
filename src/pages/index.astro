@@ -269,13 +269,12 @@ import { courseData } from "../data/payjustnow-course";
           {courseData.keyConsiderations.statements.flatMap((statement, index) => [
             index > 0 && (
               <div class="key-considerations-arrow" aria-hidden="true">
-                <svg viewBox="0 0 64 64" class="key-considerations-arrow-icon">
-                  <path fill="currentColor" d="M6 28h34V14l18 18-18 18V36H6z"></path>
+                <svg viewBox="0 0 100 64" class="key-considerations-arrow-icon">
+                  <path fill="currentColor" d="M4 22h56V4l36 28-36 28V42H4z"></path>
                 </svg>
               </div>
             ),
             <article class="card key-considerations-card">
-              <span class="key-considerations-accent" aria-hidden="true"></span>
               <p class="key-considerations-copy">{statement}</p>
             </article>,
           ])}
@@ -351,7 +350,6 @@ import { courseData } from "../data/payjustnow-course";
     <div class="container">
       <div class="course-footer-shell reveal">
         <span class="course-footer-spacer" aria-hidden="true"></span>
-        <p class="course-footer-message">{courseData.footer.message}</p>
 
         <a
           class="course-footer-link"
