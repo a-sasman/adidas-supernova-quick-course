@@ -1,376 +1,261 @@
 ---
-import CourseNav from "../components/CourseNav.astro";
 import CourseLayout from "../layouts/CourseLayout.astro";
-import HeroSection from "../components/HeroSection.astro";
-import ScenarioCard from "../components/ScenarioCard.astro";
-import VideoCard from "../components/VideoCard.astro";
-import { courseData } from "../data/payjustnow-course";
+import QuickCheck from "../components/QuickCheck.astro";
+import VersusLogo from "../components/VersusLogo.astro";
+import { courseData } from "../data/versus-course";
 ---
 
-<CourseLayout title={courseData.meta.title}>
-  <div id="top"></div>
-
-  <CourseNav
-    brandName={courseData.meta.brand}
-    logoSrc={courseData.meta.logoSrc}
-    sections={courseData.navSections}
-  />
-
-  <HeroSection
-    id="welcome"
-    title={courseData.welcome.title}
-    subtitle={courseData.welcome.subtitle}
-    points={courseData.welcome.points}
-    logoSrc={courseData.welcome.heroImageSrc}
-    logoAlt={courseData.welcome.heroImageAlt}
-  />
-
-  <section class="section scroll-mt-28" id={courseData.basics.id}>
-    <div class="container">
-      <div class="basics-shell reveal">
-        <div class="basics-grid">
-          <div class="basics-copy">
-            {courseData.basics.eyebrow && (
-              <span class="editorial-kicker">{courseData.basics.eyebrow}</span>
-            )}
-            <h2 class="section-title basics-title">{courseData.basics.title}</h2>
-            <p class="section-copy basics-intro">{courseData.basics.intro}</p>
-            <div class="basics-divider" aria-hidden="true"></div>
-
-            <aside class="basics-tip" aria-label="Tip">
-              <div class="basics-tip-icon" aria-hidden="true">
-                <svg
-                  viewBox="0 0 24 24"
-                  class="h-6 w-6"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M9 18h6" />
-                  <path d="M10 22h4" />
-                  <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-                </svg>
-              </div>
-
-              <p class="basics-tip-text">
-                <em>{courseData.basics.tip}</em>
-              </p>
-            </aside>
-
-            <div class="payment-plans-intro basics-payment-intro reveal">
-              <p class="payment-plans-intro-copy">
-                {courseData.paymentPlans.intro.replace(" Let's break that down.", "")}
-                <strong> Let's break that down.</strong>
-              </p>
-            </div>
-
-            <div class="basics-question-block">
-              <ScenarioCard
-                id={`${courseData.basics.id}-payment-check`}
-                embedded={true}
-                showHeader={false}
-                showProgress={false}
-                idleFeedbackMessage=""
-                question={courseData.basics.question.question}
-                options={courseData.basics.question.options}
-                correctIndex={courseData.basics.question.correctIndex}
-                optionFeedback={courseData.basics.question.optionFeedback}
-              />
-            </div>
-
-            <div class="payment-plans-intro basics-payment-transition reveal">
-              <p class="payment-plans-intro-copy basics-payment-transition-copy">
-                Now let's look at how those payments actually get split.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section scroll-mt-28" id={courseData.paymentPlans.id}>
-    <div class="container">
-      <div class="payment-plans-shell">
-        <div class="payment-plans-header reveal">
-          <h2 class="section-title payment-plans-title">{courseData.paymentPlans.title}</h2>
-        </div>
-
-        <div class="payment-plans-copy reveal delay-1">
-          <p class="payment-plans-copy-paragraph">{courseData.paymentPlans.cards[0].body.join(" ")}</p>
-          <span class="payment-plans-copy-accent" aria-hidden="true"></span>
-        </div>
-
-        <div class="how-it-works-media payment-plans-media reveal delay-3">
-          <p class="how-it-works-video-intro">Watch the video to learn more.</p>
-          <div class="how-it-works-laptop">
-            <VideoCard
-              title={courseData.paymentPlans.video.title}
-              embedUrl={courseData.paymentPlans.video.embedUrl}
-              frame="laptop"
-              showHeader={false}
-            />
-          </div>
-        </div>
-
-        <div class="payment-plans-copy reveal delay-4">
-          {courseData.paymentPlans.cards[1].body.map((paragraph) => (
-            <p class="payment-plans-copy-paragraph">{paragraph}</p>
+<CourseLayout title={courseData.meta.title} description={courseData.meta.description}>
+  <div class="course-page">
+    <header class="site-header" id="top">
+      <nav class="course-nav container" aria-label="Course sections">
+        <a class="brand-link" href="#overview"><VersusLogo /></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="course-links">
+          <span class="sr-only">Toggle course navigation</span>
+          <span></span><span></span><span></span>
+        </button>
+        <div class="course-links" id="course-links">
+          {courseData.nav.map((item, index) => (
+            <a href={`#${item.id}`} class:list={[index === 0 && "active"]}>{item.label}</a>
           ))}
         </div>
+      </nav>
+    </header>
 
-        <aside class="payment-plans-tip basics-tip reveal delay-5" aria-label="Tip">
-          <div class="basics-tip-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              class="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18h6" />
-              <path d="M10 22h4" />
-              <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-            </svg>
-          </div>
-
-          <p class="basics-tip-text payment-plans-tip-text">
-            <span class="payment-plans-tip-label">TIP:</span>
-            <em>
-              Mention PayStretch whenever a customer is buying a big basket item, such as furniture
-              or electronics, and always point out the interest rate before the customer confirms.
-            </em>
-            {" "}This will help build the trust of the customer.
-          </p>
-        </aside>
-      </div>
-
-      <div class="payment-example-flow reveal delay-6">
-        <article class="card payment-example-card">
-          <h3 class="payment-example-title">{courseData.paymentPlans.exampleTitle}</h3>
-          <p class="payment-example-intro">{courseData.paymentPlans.exampleBody[0]}</p>
-
-          <div class="payment-plans-example-timeline">
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">Purchase Date</span>
-              <strong class="payment-plans-example-date">1 March</strong>
-            </div>
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">First Instalment</span>
-              <strong class="payment-plans-example-date">1 March</strong>
-            </div>
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">Second Instalment</span>
-              <strong class="payment-plans-example-date">1 April</strong>
-            </div>
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">Final Instalment</span>
-              <strong class="payment-plans-example-date">1 May</strong>
-            </div>
-          </div>
-
-          <div class="payment-example-copy">
-            <p>{courseData.paymentPlans.exampleBody[1]}</p>
-          </div>
-        </article>
-      </div>
-
-      <div class="interactive-section-shell reveal delay-7">
-        <div class="interactive-section-header">
-          <h3 class="section-title interactive-section-title">Now try it yourself</h3>
+    <main id="main-content">
+      <section class="hero container" id="overview" data-nav-section>
+        <div class="hero-copy">
+          <h1>{courseData.welcome.title}</h1>
+          {courseData.welcome.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
         </div>
-
-        <div class="interactive-section-question">
-        <ScenarioCard
-          id={courseData.paymentPlans.id}
-          embedded={true}
-          showHeader={false}
-          showProgress={false}
-          idleFeedbackMessage=""
-          question={courseData.paymentPlans.question.question}
-          options={courseData.paymentPlans.question.options}
-          correctIndex={courseData.paymentPlans.question.correctIndex}
-          optionFeedback={courseData.paymentPlans.question.optionFeedback}
-        />
+        <div class="hero-image-wrap">
+          <img src={courseData.welcome.image} alt={courseData.welcome.imageAlt} />
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <section class="section scroll-mt-28" id={courseData.howItWorks.id}>
-    <div class="container">
-      <div class="how-it-works-header reveal">
-        <h2 class="section-title how-it-works-title">{courseData.howItWorks.title}</h2>
-        <p class="section-copy how-it-works-requirement">{courseData.howItWorks.requirement}</p>
-      </div>
-
-      <div class="how-it-works-media reveal delay-1">
-        <p class="how-it-works-video-intro">{courseData.howItWorks.videoIntro}</p>
-        <div class="how-it-works-laptop">
-          <VideoCard
-            title={courseData.howItWorks.video.title}
-            embedUrl={courseData.howItWorks.video.embedUrl}
-            frame="laptop"
-            showHeader={false}
+      <section class="range-section" id="product-range" data-nav-section>
+        <div class="container section-heading section-heading--dark-text">
+          <h2>{courseData.range.title}</h2>
+          <p>{courseData.range.intro}</p>
+          <span class="heading-rule" aria-hidden="true"></span>
+        </div>
+        <div class="container range-grid">
+          {courseData.range.cards.map((card) => (
+            <article class="range-card">
+              <h3>{card.title}</h3>
+              <p>{card.description}</p>
+            </article>
+          ))}
+        </div>
+        <div class="container range-check-wrap">
+          <QuickCheck
+            question="A customer says they need socks for trail running and hiking. Which range should you recommend?"
+            answer="Trail Running. It gives trail runners and hikers the grip and durability they need."
           />
         </div>
-      </div>
+      </section>
 
-      <div class="how-it-works-process-grid reveal delay-2">
-        {courseData.howItWorks.processCards.map((card) => (
-          <article class="card how-it-works-process-card">
-            <div class="how-it-works-process-top">
-              <span class="how-it-works-process-accent" aria-hidden="true"></span>
-              <h3 class="how-it-works-process-title">{card.title}</h3>
-            </div>
-            <p class="how-it-works-process-copy">{card.body}</p>
+      <section class="match-section dark-section" id="accessories-ecosystem" data-nav-section>
+        <div class="container section-heading section-heading--light-text">
+          <h2>{courseData.match.title}</h2>
+          <p>{courseData.match.intro}</p>
+          <p class="instruction"><em>{courseData.match.instruction}</em><br /><strong><em>{courseData.match.action}</em></strong></p>
+          <span class="heading-rule" aria-hidden="true"></span>
+        </div>
+        <div class="container method-grid">
+          {courseData.match.cards.map((card) => (
+            <button class="method-card" type="button" aria-pressed="false">
+              <img src={card.image} alt={card.alt} />
+              <span class="method-overlay"></span>
+              <span class="method-front"><strong><em>{card.title}</em></strong></span>
+              <span class="method-back"><strong>{card.title}</strong><span>{card.description}</span></span>
+            </button>
+          ))}
+        </div>
+        <div class="container conversation">
+          <h3>Example conversation</h3>
+          <p>{courseData.match.conversation}</p>
+        </div>
+        <div class="container">
+          <QuickCheck
+            variant="light"
+            label="Quick check: Ask first"
+            question="A customer says, “I am not sure which sock I need.” What should you do first?"
+            answer="Ask what the customer will use the socks for."
+          />
+        </div>
+      </section>
+
+      <section class="benefits-section" id="how-to-sell" data-nav-section>
+        <div class="container section-heading section-heading--dark-text">
+          <h2>{courseData.benefits.title}</h2>
+          <p>{courseData.benefits.intro}</p>
+          <p>{courseData.benefits.body}</p>
+          <span class="heading-rule" aria-hidden="true"></span>
+        </div>
+        <div class="container benefit-cards">
+          <article class="info-card">
+            <span class="info-icon" aria-hidden="true">◌</span>
+            <h3>Say it simply</h3>
+            <p>{courseData.benefits.simple}</p>
           </article>
-        ))}
-      </div>
-
-      <div class="how-it-works-tip-wrap reveal delay-3">
-        <aside class="how-it-works-tip" aria-label="Tip">
-          <div class="how-it-works-tip-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              class="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18h6" />
-              <path d="M10 22h4" />
-              <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-            </svg>
+          <div class="info-card quick-card">
+            <span class="info-icon" aria-hidden="true">♢</span>
+            <h3>Quick Check:</h3>
+            <p>Which explanation is easiest for a customer to understand?</p>
+            <button class="reveal-answer" type="button" aria-expanded="false">Reveal answer</button>
+            <p class="inline-answer" hidden>This helps move sweat away from your foot so you feel more comfortable while moving.</p>
           </div>
-
-          <p class="how-it-works-tip-text">
-            <em>{courseData.howItWorks.tip}</em>
-          </p>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section scroll-mt-28" id={courseData.keyConsiderations.id}>
-    <div class="container">
-      <div class="key-considerations-shell">
-        <div class="key-considerations-header reveal">
-          <h2 class="section-title key-considerations-title">{courseData.keyConsiderations.title}</h2>
         </div>
+      </section>
 
-        <div class="key-considerations-grid reveal delay-1">
-          {courseData.keyConsiderations.statements.flatMap((statement, index) => [
-            index > 0 && (
-              <div class="key-considerations-arrow" aria-hidden="true">
-                <svg viewBox="0 0 100 64" class="key-considerations-arrow-icon">
-                  <path fill="currentColor" d="M4 22h56V4l36 28-36 28V42H4z"></path>
-                </svg>
-              </div>
-            ),
-            <article class="card key-considerations-card">
-              <p class="key-considerations-copy">{statement}</p>
-            </article>,
-          ])}
+      <section class="concerns-section dark-section">
+        <div class="container section-heading section-heading--light-text">
+          <h2>{courseData.concerns.title}</h2>
+          <p>{courseData.concerns.intro}</p>
+          <span class="heading-rule" aria-hidden="true"></span>
         </div>
-
-        <div class="key-considerations-tip-wrap reveal delay-2">
-          <aside class="key-considerations-tip" aria-label="Tip">
-            <div class="key-considerations-tip-icon" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                class="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M9 18h6" />
-                <path d="M10 22h4" />
-                <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-              </svg>
-            </div>
-
-            <p class="key-considerations-tip-text">
-              <em>{courseData.keyConsiderations.tip}</em>
-            </p>
-          </aside>
-        </div>
-
-        <div class="key-considerations-question reveal delay-3">
-          <ScenarioCard
-            id={`${courseData.keyConsiderations.id}-question`}
-            embedded={true}
-            showHeader={false}
-            showProgress={false}
-            idleFeedbackMessage=""
-            question={courseData.keyConsiderations.question.question}
-            options={courseData.keyConsiderations.question.options}
-            correctIndex={courseData.keyConsiderations.question.correctIndex}
-            optionFeedback={courseData.keyConsiderations.question.optionFeedback}
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section scroll-mt-28" id={courseData.wrapUp.id}>
-    <div class="container">
-      <div class="wrap-up-shell card reveal">
-        <div class="wrap-up-grid">
-          <div class="wrap-up-copy">
-            <h2 class="section-title wrap-up-title">{courseData.wrapUp.title}</h2>
-            <p class="wrap-up-supporting">{courseData.wrapUp.intro}</p>
-            {courseData.wrapUp.body.map((paragraph) => (
-              <p class="wrap-up-body">{paragraph}</p>
+        <div class="container response-model">
+          <h3>{courseData.concerns.modelTitle}</h3>
+          <div class="model-line" aria-hidden="true"></div>
+          <div class="model-grid">
+            {courseData.concerns.model.map((step) => (
+              <article><h4>{step.title}</h4><p>{step.description}</p></article>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div class="wrap-up-media">
-            <img
-              class="wrap-up-image"
-              src={courseData.wrapUp.imageSrc}
-              alt={courseData.wrapUp.imageAlt}
-              loading="lazy"
-            />
+      <section class="concern-example-section">
+        <div class="container example-card">
+          <h3>Customer Concern Example</h3>
+          <p>{courseData.concerns.example}</p>
+        </div>
+        <div class="container">
+          <QuickCheck
+            label="Quick check: Ask first"
+            question="A customer says, “I am not sure which sock I need.” What should you do first?"
+            answer="Ask what the customer will use the socks for."
+          />
+        </div>
+      </section>
+
+      <section class="assessment-section" id="activity" data-nav-section>
+        <div class="container assessment-shell">
+          <h2>Assessment</h2>
+          <div class="assessment-stage" aria-live="polite">
+            {courseData.assessment.map((question, questionIndex) => (
+              <article class:list={["assessment-slide", questionIndex !== 0 && "is-hidden"]} data-question={questionIndex}>
+                <div class="assessment-question">
+                  <p><span>{questionIndex + 1}.</span> {question.question}</p>
+                  <div class="assessment-feedback" aria-live="polite"></div>
+                </div>
+                <div class="assessment-options">
+                  {question.options.map((option, optionIndex) => (
+                    <button
+                      type="button"
+                      data-option={optionIndex}
+                      data-correct={optionIndex === question.correctIndex ? "true" : "false"}
+                      data-feedback={question.feedback}
+                    >
+                      <strong>{String.fromCharCode(65 + optionIndex)}.</strong> {option}
+                    </button>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+          <div class="assessment-controls">
+            <span class="question-count">Question <strong>1</strong> of {courseData.assessment.length}</span>
+            <button type="button" class="assessment-prev" aria-label="Previous question">‹</button>
+            <button type="button" class="assessment-next" aria-label="Next question">›</button>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
+    </main>
 
-  <footer class="course-footer" aria-label="Course footer">
-    <div class="container">
-      <div class="course-footer-shell reveal">
-        <span class="course-footer-spacer" aria-hidden="true"></span>
+    <footer class="course-footer container">
+      <p>{courseData.footer.completion}</p>
+      <a href={courseData.footer.url}>{courseData.footer.button} <span aria-hidden="true">›</span></a>
+    </footer>
 
-        <a
-          class="course-footer-link"
-          href={courseData.footer.peopleConnectUrl}
-          aria-label={courseData.footer.buttonLabel}
-        >
-          <span>{courseData.footer.buttonLabel}</span>
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            class="course-footer-link-icon"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M9 6l6 6-6 6" />
-          </svg>
-        </a>
-      </div>
-    </div>
-  </footer>
+    <a class="back-to-top" href="#top" aria-label="Back to top">⌃</a>
+  </div>
+
+  <script>
+    const storageKey = "versus-socks-course-progress-v1";
+    const navToggle = document.querySelector(".nav-toggle");
+    const links = document.querySelector(".course-links");
+    navToggle?.addEventListener("click", () => {
+      const open = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", String(!open));
+      links?.classList.toggle("is-open", !open);
+    });
+    links?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+      navToggle?.setAttribute("aria-expanded", "false");
+      links.classList.remove("is-open");
+    }));
+
+    document.querySelectorAll(".method-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const pressed = card.getAttribute("aria-pressed") === "true";
+        card.setAttribute("aria-pressed", String(!pressed));
+      });
+    });
+
+    document.querySelectorAll(".reveal-answer").forEach((button) => {
+      button.addEventListener("click", () => {
+        const answer = button.parentElement?.querySelector(".inline-answer");
+        const open = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!open));
+        if (answer instanceof HTMLElement) answer.hidden = open;
+        button.textContent = open ? "Reveal answer" : "Hide answer";
+      });
+    });
+
+    const slides = Array.from(document.querySelectorAll(".assessment-slide"));
+    const count = document.querySelector(".question-count strong");
+    const previous = document.querySelector(".assessment-prev");
+    const next = document.querySelector(".assessment-next");
+    let current = 0;
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      if (Number.isInteger(saved.current)) current = Math.min(Math.max(saved.current, 0), slides.length - 1);
+    } catch {}
+
+    const showQuestion = (index) => {
+      current = Math.min(Math.max(index, 0), slides.length - 1);
+      slides.forEach((slide, slideIndex) => slide.classList.toggle("is-hidden", slideIndex !== current));
+      if (count) count.textContent = String(current + 1);
+      if (previous instanceof HTMLButtonElement) previous.disabled = current === 0;
+      if (next instanceof HTMLButtonElement) next.disabled = current === slides.length - 1;
+      localStorage.setItem(storageKey, JSON.stringify({ current }));
+    };
+
+    slides.forEach((slide) => {
+      slide.querySelectorAll("[data-option]").forEach((option) => {
+        option.addEventListener("click", () => {
+          const feedback = slide.querySelector(".assessment-feedback");
+          const correct = option.getAttribute("data-correct") === "true";
+          slide.querySelectorAll("[data-option]").forEach((item) => item.classList.remove("selected", "correct", "incorrect"));
+          option.classList.add("selected", correct ? "correct" : "incorrect");
+          if (feedback) {
+            feedback.textContent = correct ? `Correct. ${option.getAttribute("data-feedback") || ""}` : "Not quite. Review the course content and try again.";
+            feedback.className = `assessment-feedback ${correct ? "is-correct" : "is-incorrect"}`;
+          }
+        });
+      });
+    });
+    previous?.addEventListener("click", () => showQuestion(current - 1));
+    next?.addEventListener("click", () => showQuestion(current + 1));
+    showQuestion(current);
+
+    const sectionLinks = Array.from(document.querySelectorAll(".course-links a"));
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      sectionLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
+    }, { rootMargin: "-20% 0px -65%", threshold: [0.05, 0.3, 0.6] });
+    document.querySelectorAll("[data-nav-section]").forEach((section) => observer.observe(section));
+  </script>
 </CourseLayout>
