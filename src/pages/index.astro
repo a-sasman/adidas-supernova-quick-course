@@ -3,6 +3,14 @@ import CourseLayout from "../layouts/CourseLayout.astro";
 import QuickCheck from "../components/QuickCheck.astro";
 import VersusLogo from "../components/VersusLogo.astro";
 import { courseData } from "../data/versus-course";
+
+const employeeMarker = " Employee:";
+const employeeMarkerIndex = courseData.match.conversation.indexOf(employeeMarker);
+const customerSentence = courseData.match.conversation.slice("Customer:".length, employeeMarkerIndex);
+const employeeSentence = courseData.match.conversation.slice(employeeMarkerIndex + employeeMarker.length);
+const concernEmployeeMarkerIndex = courseData.concerns.example.indexOf(employeeMarker);
+const concernCustomerSentence = courseData.concerns.example.slice("Customer:".length, concernEmployeeMarkerIndex);
+const concernEmployeeSentence = courseData.concerns.example.slice(concernEmployeeMarkerIndex + employeeMarker.length);
 ---
 
 <CourseLayout title={courseData.meta.title} description={courseData.meta.description}>
@@ -74,7 +82,10 @@ import { courseData } from "../data/versus-course";
         </div>
         <div class="container conversation">
           <h3>Example conversation</h3>
-          <p>{courseData.match.conversation}</p>
+          <p>
+            <span class="conversation-label">Customer:</span>{customerSentence}<br />
+            <span class="conversation-label">Employee:</span>{employeeSentence}
+          </p>
         </div>
         <div class="container">
           <QuickCheck
@@ -129,7 +140,10 @@ import { courseData } from "../data/versus-course";
       <section class="concern-example-section">
         <div class="container example-card">
           <h3>Customer Concern Example</h3>
-          <p>{courseData.concerns.example}</p>
+          <p>
+            <span class="conversation-label">Customer:</span>{concernCustomerSentence}<br />
+            <span class="conversation-label">Employee:</span>{concernEmployeeSentence}
+          </p>
         </div>
         <div class="container">
           <QuickCheck
@@ -142,7 +156,7 @@ import { courseData } from "../data/versus-course";
 
       <section class="assessment-section" id="activity" data-nav-section>
         <div class="container assessment-shell">
-          <h2>Assessment</h2>
+          <h2>Activity</h2>
           <div class="assessment-stage" aria-live="polite">
             {courseData.assessment.map((question, questionIndex) => (
               <article class:list={["assessment-slide", questionIndex !== 0 && "is-hidden"]} data-question={questionIndex}>
@@ -184,6 +198,7 @@ import { courseData } from "../data/versus-course";
 
   <script>
     const storageKey = "versus-socks-course-progress-v1";
+    const scorm = (window as any).VersusSCORM;
     const navToggle = document.querySelector(".nav-toggle");
     const links = document.querySelector(".course-links");
     navToggle?.addEventListener("click", () => {
@@ -218,10 +233,34 @@ import { courseData } from "../data/versus-course";
     const previous = document.querySelector(".assessment-prev");
     const next = document.querySelector(".assessment-next");
     let current = 0;
+    let savedProgress: { current?: number; completed?: boolean } = {};
     try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
-      if (Number.isInteger(saved.current)) current = Math.min(Math.max(saved.current, 0), slides.length - 1);
+      savedProgress = JSON.parse(localStorage.getItem(storageKey) || "{}");
     } catch {}
+    if (!Number.isInteger(savedProgress.current)) {
+      try {
+        savedProgress = JSON.parse(scorm?.getSuspendData?.() || "{}");
+      } catch {}
+    }
+    if (Number.isInteger(savedProgress.current)) {
+      current = Math.min(Math.max(savedProgress.current ?? 0, 0), slides.length - 1);
+    }
+    let courseCompleted = Boolean(savedProgress.completed);
+
+    const persistProgress = () => {
+      const progress = { current, completed: courseCompleted };
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(progress));
+      } catch {}
+      scorm?.setSuspendData?.(JSON.stringify(progress));
+    };
+
+    const completeCourse = () => {
+      if (courseCompleted) return;
+      courseCompleted = true;
+      persistProgress();
+      scorm?.setCompleted?.();
+    };
 
     const showQuestion = (index) => {
       current = Math.min(Math.max(index, 0), slides.length - 1);
@@ -229,7 +268,7 @@ import { courseData } from "../data/versus-course";
       if (count) count.textContent = String(current + 1);
       if (previous instanceof HTMLButtonElement) previous.disabled = current === 0;
       if (next instanceof HTMLButtonElement) next.disabled = current === slides.length - 1;
-      localStorage.setItem(storageKey, JSON.stringify({ current }));
+      persistProgress();
     };
 
     slides.forEach((slide) => {
@@ -243,6 +282,7 @@ import { courseData } from "../data/versus-course";
             feedback.textContent = correct ? `Correct. ${option.getAttribute("data-feedback") || ""}` : "Not quite. Review the course content and try again.";
             feedback.className = `assessment-feedback ${correct ? "is-correct" : "is-incorrect"}`;
           }
+          if (slide === slides[slides.length - 1]) completeCourse();
         });
       });
     });
@@ -257,5 +297,17 @@ import { courseData } from "../data/versus-course";
       sectionLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
     }, { rootMargin: "-20% 0px -65%", threshold: [0.05, 0.3, 0.6] });
     document.querySelectorAll("[data-nav-section]").forEach((section) => observer.observe(section));
+
+    const completionTarget = document.querySelector(".course-footer");
+    if (completionTarget) {
+      const completionObserver = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        completeCourse();
+        completionObserver.disconnect();
+      }, { threshold: 0.5 });
+      completionObserver.observe(completionTarget);
+    }
+
+    if (courseCompleted) scorm?.setCompleted?.();
   </script>
 </CourseLayout>

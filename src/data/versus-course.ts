@@ -162,14 +162,6 @@ export const courseData = {
   assessment: [
     {
       question:
-        "A customer is buying trail shoes and says they often run on uneven paths and sometimes hike on weekends. Which sock would best support this customer’s activity?",
-      options: ["Velocity Trainer", "Trail Running", "Aero Cycling", "Classic Tab"],
-      correctIndex: 1,
-      feedback:
-        "Trail Running is designed for off-road movement and gives trail runners and hikers the grip and durability they need.",
-    },
-    {
-      question:
         "A customer says, “I am not sure which sock I need.” What should you do first?",
       options: [
         "Ask what they will use the socks for",
