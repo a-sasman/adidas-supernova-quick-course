@@ -1,9 +1,16 @@
-import { readdir, readFile, stat, writeFile } from "node:fs/promises";
+import { copyFile, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
+const schemaDirectory = path.join(root, "scripts", "scorm-1.2-schemas");
+const schemaFiles = [
+  "adlcp_rootv1p2.xsd",
+  "imscp_rootv1p1p2.xsd",
+  "imsmd_rootv1p2p1.xsd",
+  "ims_xml.xsd",
+];
 
 const xmlEscape = (value) => value
   .replaceAll("&", "&amp;")
@@ -51,7 +58,7 @@ function manifestFor(files) {
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="VERSUS_SOCKS_QUICK_COURSE_SCORM_12"
+<manifest identifier="ADIDAS_ADIZERO_QUICK_COURSE_SCORM_12"
   version="1.0"
   xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
   xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
@@ -61,16 +68,16 @@ function manifestFor(files) {
     <schema>ADL SCORM</schema>
     <schemaversion>1.2</schemaversion>
   </metadata>
-  <organizations default="VERSUS_ORG">
-    <organization identifier="VERSUS_ORG">
-      <title>Versus Socks Quick Course</title>
-      <item identifier="VERSUS_ITEM" identifierref="VERSUS_RESOURCE">
-        <title>Versus Socks Quick Course</title>
+  <organizations default="ADIZERO_ORG">
+    <organization identifier="ADIZERO_ORG">
+      <title>Adidas Adizero Course</title>
+      <item identifier="ADIZERO_ITEM" identifierref="ADIZERO_RESOURCE">
+        <title>Adidas Adizero Course</title>
       </item>
     </organization>
   </organizations>
   <resources>
-    <resource identifier="VERSUS_RESOURCE" type="webcontent" adlcp:scormtype="sco" href="index.html">
+    <resource identifier="ADIZERO_RESOURCE" type="webcontent" adlcp:scormtype="sco" href="index.html">
 ${fileEntries}
     </resource>
   </resources>
@@ -118,6 +125,9 @@ async function validateReferences(files) {
 }
 
 await makePathsRelative();
+for (const schemaFile of schemaFiles) {
+  await copyFile(path.join(schemaDirectory, schemaFile), path.join(dist, schemaFile));
+}
 let files = await listFiles(dist);
 await writeFile(path.join(dist, "imsmanifest.xml"), manifestFor(files), "utf8");
 files = await listFiles(dist);
@@ -127,8 +137,23 @@ const manifest = await readFile(path.join(dist, "imsmanifest.xml"), "utf8");
 const wrapper = await readFile(path.join(dist, "scorm-api.js"), "utf8");
 if (!manifest.includes('href="index.html"')) throw new Error("Manifest launch file is not index.html");
 if (/masteryscore|adlcp:masteryscore|\bpassed\b|\bfailed\b/i.test(manifest)) throw new Error("Manifest contains score or pass/fail requirements");
-for (const required of ["LMSInitialize", "cmi.core.lesson_status", "incomplete", "completed", "LMSCommit", "LMSFinish"]) {
+for (const required of [
+  "LMSInitialize",
+  "cmi.core.lesson_status",
+  "cmi.core.session_time",
+  "cmi.core.total_time",
+  "cmi.core.exit",
+  "cmi.suspend_data",
+  "incomplete",
+  "completed",
+  "suspend",
+  "LMSCommit",
+  "LMSFinish",
+]) {
   if (!wrapper.includes(required)) throw new Error(`SCORM wrapper is missing ${required}`);
+}
+for (const schemaFile of schemaFiles) {
+  if (!files.includes(schemaFile)) throw new Error(`SCORM package is missing ${schemaFile}`);
 }
 
 const listeners = {};
@@ -138,12 +163,15 @@ const standaloneWindow = {
 };
 standaloneWindow.parent = standaloneWindow;
 vm.runInNewContext(wrapper, { window: standaloneWindow });
-standaloneWindow.VersusSCORM.setSuspendData('{"current":1}');
-standaloneWindow.VersusSCORM.setCompleted();
+standaloneWindow.CourseSCORM.setSuspendData('{"current":1}');
+standaloneWindow.CourseSCORM.setCompleted();
 listeners.pagehide();
 
 const lmsCalls = [];
-const lmsValues = { "cmi.core.lesson_status": "not attempted" };
+const lmsValues = {
+  "cmi.core.lesson_status": "not attempted",
+  "cmi.core.total_time": "0001:02:03.45",
+};
 const lmsApi = {
   LMSInitialize(value) { lmsCalls.push(["LMSInitialize", value]); return "true"; },
   LMSGetValue(element) { lmsCalls.push(["LMSGetValue", element]); return lmsValues[element] ?? ""; },
@@ -159,14 +187,29 @@ const lmsWindow = {
 };
 lmsWindow.parent = lmsWindow;
 vm.runInNewContext(wrapper, { window: lmsWindow });
-lmsWindow.VersusSCORM.setSuspendData('{"current":3,"completed":true}');
-lmsWindow.VersusSCORM.setCompleted();
+lmsWindow.CourseSCORM.setSuspendData('{"current":3,"completed":true}');
+lmsWindow.CourseSCORM.setCompleted();
+const completionStatus = lmsWindow.CourseSCORM.getCompletionStatus();
+const totalTime = lmsWindow.CourseSCORM.getTotalTime();
 lmsListeners.pagehide();
 
 const statuses = lmsCalls
   .filter(([method, element]) => method === "LMSSetValue" && element === "cmi.core.lesson_status")
   .map(([, , value]) => value);
 if (!statuses.includes("incomplete") || !statuses.includes("completed")) throw new Error("SCORM status lifecycle validation failed");
+if (completionStatus !== "completed") throw new Error("SCORM completion status alias validation failed");
+if (totalTime !== "0001:02:03.45") throw new Error("SCORM total time retrieval validation failed");
+const sessionTimes = lmsCalls
+  .filter(([method, element]) => method === "LMSSetValue" && element === "cmi.core.session_time")
+  .map(([, , value]) => value);
+if (!sessionTimes.length || sessionTimes.some((value) => !/^\d{4}:\d{2}:\d{2}\.\d{2}$/.test(value))) {
+  throw new Error("SCORM session time validation failed");
+}
+if (!lmsCalls.some(([method, element, value]) => (
+  method === "LMSSetValue"
+  && element === "cmi.core.exit"
+  && value === ""
+))) throw new Error("SCORM completed exit validation failed");
 if (!lmsCalls.some(([method]) => method === "LMSCommit")) throw new Error("SCORM commit validation failed");
 if (!lmsCalls.some(([method]) => method === "LMSFinish")) throw new Error("SCORM finish validation failed");
 if (lmsCalls.some((call) => /score|mastery|passed|failed/i.test(call.join(" ")))) throw new Error("SCORM wrapper emitted score or pass/fail data");

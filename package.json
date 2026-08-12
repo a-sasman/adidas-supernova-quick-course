@@ -1,5 +1,5 @@
 {
-  "name": "versus-socks-quick-course",
+  "name": "adidas-adizero-quick-course",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -10,6 +10,7 @@
     "build": "astro build",
     "prepare:scorm": "node scripts/prepare-scorm.mjs",
     "preview": "astro preview",
+    "verify": "node scripts/verify-course.mjs",
     "astro": "astro",
     "pdf": "node scripts/generate-pdf.mjs"
   },

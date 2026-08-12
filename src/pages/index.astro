@@ -1,23 +1,14 @@
 ---
 import CourseLayout from "../layouts/CourseLayout.astro";
-import QuickCheck from "../components/QuickCheck.astro";
-import VersusLogo from "../components/VersusLogo.astro";
-import { courseData } from "../data/versus-course";
-
-const employeeMarker = " Employee:";
-const employeeMarkerIndex = courseData.match.conversation.indexOf(employeeMarker);
-const customerSentence = courseData.match.conversation.slice("Customer:".length, employeeMarkerIndex);
-const employeeSentence = courseData.match.conversation.slice(employeeMarkerIndex + employeeMarker.length);
-const concernEmployeeMarkerIndex = courseData.concerns.example.indexOf(employeeMarker);
-const concernCustomerSentence = courseData.concerns.example.slice("Customer:".length, concernEmployeeMarkerIndex);
-const concernEmployeeSentence = courseData.concerns.example.slice(concernEmployeeMarkerIndex + employeeMarker.length);
+import CourseMark from "../components/CourseMark.astro";
+import { courseData } from "../data/course";
 ---
 
 <CourseLayout title={courseData.meta.title} description={courseData.meta.description}>
   <div class="course-page">
     <header class="site-header" id="top">
       <nav class="course-nav container" aria-label="Course sections">
-        <a class="brand-link" href="#overview"><VersusLogo /></a>
+        <a class="brand-link" href="#overview"><CourseMark /></a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="course-links">
           <span class="sr-only">Toggle course navigation</span>
           <span></span><span></span><span></span>
@@ -31,137 +22,210 @@ const concernEmployeeSentence = courseData.concerns.example.slice(concernEmploye
     </header>
 
     <main id="main-content">
-      <section class="hero container" id="overview" data-nav-section>
-        <div class="hero-copy">
-          <h1>{courseData.welcome.title}</h1>
-          {courseData.welcome.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="hero-stage">
+        <section class="hero container" id="overview" data-nav-section>
+          <div class="hero-copy">
+            <h1>{courseData.welcome.title}</h1>
+            <p>{courseData.welcome.text}</p>
+          </div>
+          <div class="hero-image-wrap">
+            <img src={courseData.welcome.image} alt={courseData.welcome.imageAlt} />
+          </div>
+        </section>
+      </div>
+
+      <section class="customer-moment container section-block" id="customer-moment" data-nav-section>
+        <div class="section-heading">
+          <h2>{courseData.customerMoment.title}</h2>
+          <p>{courseData.customerMoment.text}</p>
+          <p>{courseData.customerMoment.clue}</p>
         </div>
-        <div class="hero-image-wrap">
-          <img src={courseData.welcome.image} alt={courseData.welcome.imageAlt} />
+        <p class="pill-callout">{courseData.customerMoment.takeaway}</p>
+      </section>
+
+      <section class="product-basics section-block" id="product-basics" data-nav-section>
+        <div class="container section-heading">
+          <h2>{courseData.basics.title}</h2>
+          <p>{courseData.basics.intro}</p>
+        </div>
+        <div class="basics-grid container">
+          <div class="recommendation-layout">
+            <div class="runner-panel">
+              <img class="ts-watermark" src="/ts-logomark.svg" alt="" aria-hidden="true" />
+              <img class="runner-athlete" src={courseData.basics.runnerImage} alt={courseData.basics.runnerAlt} />
+              <img class="runner-mobile-composite" src="/images/adizero/recommendation-mobile.png" alt={courseData.basics.runnerAlt} />
+            </div>
+            <div class="recommendations-panel">
+              <p>{courseData.basics.recommendationLead}</p>
+              <ul>
+                {courseData.basics.recommendations.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </div>
+          <div class="benefits-copy">
+            <h3>{courseData.basics.benefitsTitle}</h3>
+            <p><strong>Lightweight feel, responsive movement,</strong> and support for <strong>faster training</strong> or <strong>race preparation.</strong></p>
+          </div>
+          <img class="benefits-image" src={courseData.basics.benefitsImage} alt={courseData.basics.benefitsAlt} />
         </div>
       </section>
 
-      <section class="range-section" id="product-range" data-nav-section>
-        <div class="container section-heading section-heading--dark-text">
-          <h2>{courseData.range.title}</h2>
+      <section class="range-section section-block" id="product-range" data-nav-section>
+        <div class="container section-heading">
+          <h2>Product Range</h2>
+          <h3>{courseData.range.title}</h3>
           <p>{courseData.range.intro}</p>
-          <span class="heading-rule" aria-hidden="true"></span>
         </div>
-        <div class="container range-grid">
+        <div class="container range-grid" role="list">
           {courseData.range.cards.map((card) => (
-            <article class="range-card">
-              <h3>{card.title}</h3>
-              <p>{card.description}</p>
+            <article class="range-card" role="listitem">
+              <button
+                class="range-card-toggle"
+                type="button"
+                aria-pressed="false"
+                aria-label={`Show details for ${card.option}`}
+              >
+                <span class="range-card-inner">
+                  <span class="range-card-face range-card-front" aria-hidden="false">
+                    <img src={card.image} alt={card.alt} />
+                    <span class="range-card-title"><span class="sr-only">Adizero option: </span>{card.option}</span>
+                  </span>
+                  <span class="range-card-face range-card-back" aria-hidden="true">
+                    <span class="range-card-detail">
+                      <strong>Customer need</strong>
+                      <span>{card.customerNeed}</span>
+                    </span>
+                    <span class="range-card-detail">
+                      <strong>Simple recommendation cue</strong>
+                      <span>{card.cue}</span>
+                    </span>
+                  </span>
+                </span>
+              </button>
             </article>
           ))}
         </div>
-        <div class="container range-check-wrap">
-          <QuickCheck
-            question="A customer says they need socks for trail running and hiking. Which range should you recommend?"
-            answer="Trail Running. It gives trail runners and hikers the grip and durability they need."
-          />
-        </div>
-      </section>
+        <p class="range-statement container">{courseData.range.statement}</p>
 
-      <section class="match-section dark-section" id="accessories-ecosystem" data-nav-section>
-        <div class="container section-heading section-heading--light-text">
-          <h2>{courseData.match.title}</h2>
-          <p>{courseData.match.intro}</p>
-          <p class="instruction"><em>{courseData.match.instruction}</em><br /><strong><em>{courseData.match.action}</em></strong></p>
-          <span class="heading-rule" aria-hidden="true"></span>
-        </div>
-        <div class="container method-grid">
-          {courseData.match.cards.map((card) => (
-            <button class="method-card" type="button" aria-pressed="false">
-              <img src={card.image} alt={card.alt} />
-              <span class="method-overlay"></span>
-              <span class="method-front"><strong><em>{card.title}</em></strong></span>
-              <span class="method-back"><strong>{card.title}</strong><span>{card.description}</span></span>
-            </button>
-          ))}
-        </div>
-        <div class="container conversation">
-          <h3>Example conversation</h3>
-          <p>
-            <span class="conversation-label">Customer:</span>{customerSentence}<br />
-            <span class="conversation-label">Employee:</span>{employeeSentence}
-          </p>
-        </div>
-        <div class="container">
-          <QuickCheck
-            variant="light"
-            label="Quick check: Ask first"
-            question="A customer says, “I am not sure which sock I need.” What should you do first?"
-            answer="Ask what the customer will use the socks for."
-          />
-        </div>
-      </section>
-
-      <section class="benefits-section" id="how-to-sell" data-nav-section>
-        <div class="container section-heading section-heading--dark-text">
-          <h2>{courseData.benefits.title}</h2>
-          <p>{courseData.benefits.intro}</p>
-          <p>{courseData.benefits.body}</p>
-          <span class="heading-rule" aria-hidden="true"></span>
-        </div>
-        <div class="container benefit-cards">
-          <article class="info-card">
-            <span class="info-icon" aria-hidden="true">◌</span>
-            <h3>Say it simply</h3>
-            <p>{courseData.benefits.simple}</p>
-          </article>
-          <div class="info-card quick-card">
-            <span class="info-icon" aria-hidden="true">♢</span>
-            <h3>Quick Check:</h3>
-            <p>Which explanation is easiest for a customer to understand?</p>
-            <button class="reveal-answer" type="button" aria-expanded="false">Reveal answer</button>
-            <p class="inline-answer" hidden>This helps move sweat away from your foot so you feel more comfortable while moving.</p>
+        <div class="technology container">
+          <div class="section-heading technology-heading">
+            <h3>{courseData.technology.title}</h3>
+            <p>{courseData.technology.intro}</p>
+          </div>
+          <div class="technology-grid">
+            <div class="technology-visual">
+              <img src={courseData.technology.image} alt={courseData.technology.imageAlt} />
+              {courseData.technology.items.map((item, index) => (
+                <button
+                  class:list={["hotspot", `hotspot--${index + 1}`, index === 0 && "is-active"]}
+                  type="button"
+                  data-technology={index}
+                  aria-label={`Show ${item.feature}`}
+                >{item.hotspot}</button>
+              ))}
+              <button
+                class="hotspot hotspot--1-secondary is-active"
+                type="button"
+                data-technology="0"
+                aria-label={`Show ${courseData.technology.items[0].feature}`}
+              >1</button>
+            </div>
+            <div class="technology-accordion">
+              {courseData.technology.items.map((item, index) => (
+                <article class:list={["technology-item", index === 0 && "is-open"]} data-technology-item={index}>
+                  <button class="technology-trigger" type="button" aria-expanded={index === 0 ? "true" : "false"}>
+                    <span>{item.hotspot}</span><span class="sr-only">Feature: </span>{item.feature}
+                  </button>
+                  <div class="technology-detail" hidden={index !== 0}>
+                    <div><strong>Customer benefit</strong><p>{item.benefit}</p></div>
+                    <div class="selling-phrase"><strong>Say it like this</strong><p>{item.phrase}</p></div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="concerns-section dark-section">
-        <div class="container section-heading section-heading--light-text">
-          <h2>{courseData.concerns.title}</h2>
-          <p>{courseData.concerns.intro}</p>
-          <span class="heading-rule" aria-hidden="true"></span>
+      <section class="selling-section section-block" id="how-to-sell" data-nav-section>
+        <div class="container section-heading">
+          <h2>How to Sell</h2>
+          <h3>{courseData.selling.title}</h3>
+          <p>{courseData.selling.intro}</p>
+          <p class="flow-lead">{courseData.selling.flowLead}</p>
         </div>
-        <div class="container response-model">
-          <h3>{courseData.concerns.modelTitle}</h3>
-          <div class="model-line" aria-hidden="true"></div>
-          <div class="model-grid">
-            {courseData.concerns.model.map((step) => (
-              <article><h4>{step.title}</h4><p>{step.description}</p></article>
+        <div class="container flow-grid">
+          {courseData.selling.steps.map((step, index) => (
+            <article class="flow-card">
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+              {index < courseData.selling.steps.length - 1 && (
+                <span class="flow-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 64 32" focusable="false">
+                    <path d="M3 16H52M43 6L54 16L43 26" />
+                  </svg>
+                </span>
+              )}
+            </article>
+          ))}
+        </div>
+        <p class="container pill-callout example-recommendation">{courseData.selling.example}</p>
+
+        <div class="scenario container">
+          <div class="section-heading scenario-heading">
+            <h3>{courseData.scenario.title}</h3>
+            <p>{courseData.scenario.intro}</p>
+          </div>
+          <div class="conversation customer-line">
+            <span class="conversation-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" focusable="false">
+                <path d="M21 25v-5c0-9 5-14 12-14s12 5 12 14v5M24 18c3 1 7-1 10-5 2 3 5 5 9 5v11c0 7-4 12-10 12s-10-5-10-12V18zM19 56v-7c0-5 4-8 9-9l5 5 5-5c5 1 9 4 9 9v7H19zM15 24v11h5M50 24v11h-5" />
+              </svg>
+            </span>
+            <div class="conversation-content">
+              <strong>Customer</strong>
+              <p>{courseData.scenario.customer.replace("Customer says: ", "")}</p>
+            </div>
+          </div>
+          <div class="conversation employee-line">
+            <div class="conversation-content">
+              <strong>Store Employee</strong>
+              <p>{courseData.scenario.employee.replace("Store employee says: ", "")}</p>
+            </div>
+            <span class="conversation-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" focusable="false">
+                <path d="M22 20c1-9 5-13 11-13s10 4 11 13M24 18c3 1 7-1 10-5 2 3 5 5 9 5v11c0 7-4 12-10 12s-10-5-10-12V18zM18 56v-8c0-5 4-8 10-9l5 6 5-6c6 1 10 4 10 9v8H18zM15 25v10h6M51 25v10h-6M38 48h7v5h-7z" />
+              </svg>
+            </span>
+          </div>
+
+          <div class="branching-activity">
+            <div class="branch-headings" aria-hidden="true"><span>Ask</span><span>Match</span><span>Recommend</span></div>
+            {courseData.scenario.branches.map((branch, index) => (
+              <div class:list={["branch-row", index === 0 && "is-selected"]} data-branch={index}>
+                <button class="branch-ask" type="button" aria-pressed={index === 0 ? "true" : "false"}>{branch.ask}</button>
+                <div class="branch-connector" aria-hidden="true"></div>
+                <div class="branch-match">{branch.match}</div>
+                <div class="branch-connector" aria-hidden="true"></div>
+                <div class="branch-recommend"><span class="branch-shoe"><img src={branch.image} alt={branch.alt} /></span><span>{branch.recommend}</span></div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section class="concern-example-section">
-        <div class="container example-card">
-          <h3>Customer Concern Example</h3>
-          <p>
-            <span class="conversation-label">Customer:</span>{concernCustomerSentence}<br />
-            <span class="conversation-label">Employee:</span>{concernEmployeeSentence}
-          </p>
-        </div>
-        <div class="container">
-          <QuickCheck
-            label="Quick check: Ask first"
-            question="A customer says, “I am not sure which sock I need.” What should you do first?"
-            answer="Ask what the customer will use the socks for."
-          />
-        </div>
-      </section>
-
-      <section class="assessment-section" id="activity" data-nav-section>
+      <section class="assessment-section section-block" id="activity" data-nav-section>
         <div class="container assessment-shell">
-          <h2>Activity</h2>
+          <div class="assessment-heading">
+            <h2>{courseData.assessment.title}</h2>
+            <p>{courseData.assessment.intro}</p>
+          </div>
           <div class="assessment-stage" aria-live="polite">
-            {courseData.assessment.map((question, questionIndex) => (
+            {courseData.assessment.questions.map((question, questionIndex) => (
               <article class:list={["assessment-slide", questionIndex !== 0 && "is-hidden"]} data-question={questionIndex}>
                 <div class="assessment-question">
-                  <p><span>{questionIndex + 1}.</span> {question.question}</p>
+                  <p>{question.scenario}</p>
+                  <strong>{question.question}</strong>
                   <div class="assessment-feedback" aria-live="polite"></div>
                 </div>
                 <div class="assessment-options">
@@ -180,25 +244,24 @@ const concernEmployeeSentence = courseData.concerns.example.slice(concernEmploye
             ))}
           </div>
           <div class="assessment-controls">
-            <span class="question-count">Question <strong>1</strong> of {courseData.assessment.length}</span>
-            <button type="button" class="assessment-prev" aria-label="Previous question">‹</button>
-            <button type="button" class="assessment-next" aria-label="Next question">›</button>
+            <span class="question-count">Question <strong>1</strong> of {courseData.assessment.questions.length}</span>
+            <button type="button" class="assessment-prev" aria-label="Previous question">&#8249;</button>
+            <button type="button" class="assessment-next" aria-label="Next question">&#8250;</button>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="course-footer container">
-      <p>{courseData.footer.completion}</p>
-      <a href={courseData.footer.url}>{courseData.footer.button} <span aria-hidden="true">›</span></a>
+      <span aria-hidden="true"></span>
+      <a href={courseData.footer.url}>{courseData.footer.button} <span aria-hidden="true">&#8250;</span></a>
     </footer>
-
-    <a class="back-to-top" href="#top" aria-label="Back to top">⌃</a>
+    <a class="back-to-top" href="#top" aria-label="Back to top">&#8593;</a>
   </div>
 
   <script>
-    const storageKey = "versus-socks-course-progress-v1";
-    const scorm = (window as any).VersusSCORM;
+    const storageKey = "adidas-adizero-course-progress-v1";
+    const scorm = (window as any).CourseSCORM;
     const navToggle = document.querySelector(".nav-toggle");
     const links = document.querySelector(".course-links");
     navToggle?.addEventListener("click", () => {
@@ -211,20 +274,42 @@ const concernEmployeeSentence = courseData.concerns.example.slice(concernEmploye
       links.classList.remove("is-open");
     }));
 
-    document.querySelectorAll(".method-card").forEach((card) => {
+    document.querySelectorAll(".range-card-toggle").forEach((card) => {
       card.addEventListener("click", () => {
-        const pressed = card.getAttribute("aria-pressed") === "true";
-        card.setAttribute("aria-pressed", String(!pressed));
+        const flipped = card.getAttribute("aria-pressed") !== "true";
+        card.setAttribute("aria-pressed", String(flipped));
+        card.classList.toggle("is-flipped", flipped);
+        card.setAttribute("aria-label", `${flipped ? "Show product" : "Show details"} for ${card.querySelector(".range-card-title")?.textContent?.trim() || "Adizero option"}`);
+        card.querySelector(".range-card-front")?.setAttribute("aria-hidden", String(flipped));
+        card.querySelector(".range-card-back")?.setAttribute("aria-hidden", String(!flipped));
       });
     });
 
-    document.querySelectorAll(".reveal-answer").forEach((button) => {
+    const showTechnology = (index) => {
+      document.querySelectorAll(".technology-item").forEach((item, itemIndex) => {
+        const open = itemIndex === index;
+        item.classList.toggle("is-open", open);
+        item.querySelector(".technology-trigger")?.setAttribute("aria-expanded", String(open));
+        const detail = item.querySelector(".technology-detail");
+        if (detail instanceof HTMLElement) detail.hidden = !open;
+      });
+      document.querySelectorAll(".hotspot").forEach((hotspot) => {
+        hotspot.classList.toggle("is-active", Number(hotspot.getAttribute("data-technology")) === index);
+      });
+    };
+    document.querySelectorAll(".technology-trigger, .hotspot").forEach((control) => {
+      control.addEventListener("click", () => {
+        const item = control.closest("[data-technology-item]");
+        const index = Number(item?.getAttribute("data-technology-item") ?? control.getAttribute("data-technology"));
+        showTechnology(index);
+      });
+    });
+
+    document.querySelectorAll(".branch-ask").forEach((button) => {
       button.addEventListener("click", () => {
-        const answer = button.parentElement?.querySelector(".inline-answer");
-        const open = button.getAttribute("aria-expanded") === "true";
-        button.setAttribute("aria-expanded", String(!open));
-        if (answer instanceof HTMLElement) answer.hidden = open;
-        button.textContent = open ? "Reveal answer" : "Hide answer";
+        const row = button.closest(".branch-row");
+        document.querySelectorAll(".branch-row").forEach((item) => item.classList.toggle("is-selected", item === row));
+        document.querySelectorAll(".branch-ask").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
       });
     });
 
@@ -234,35 +319,28 @@ const concernEmployeeSentence = courseData.concerns.example.slice(concernEmploye
     const next = document.querySelector(".assessment-next");
     let current = 0;
     let savedProgress: { current?: number; completed?: boolean } = {};
-    try {
-      savedProgress = JSON.parse(localStorage.getItem(storageKey) || "{}");
-    } catch {}
+    try { savedProgress = JSON.parse(localStorage.getItem(storageKey) || "{}"); } catch {}
     if (!Number.isInteger(savedProgress.current)) {
-      try {
-        savedProgress = JSON.parse(scorm?.getSuspendData?.() || "{}");
-      } catch {}
+      try { savedProgress = JSON.parse(scorm?.getSuspendData?.() || "{}"); } catch {}
     }
-    if (Number.isInteger(savedProgress.current)) {
+    if (Number.isInteger(savedProgress.current) && slides.length) {
       current = Math.min(Math.max(savedProgress.current ?? 0, 0), slides.length - 1);
     }
     let courseCompleted = Boolean(savedProgress.completed);
 
     const persistProgress = () => {
       const progress = { current, completed: courseCompleted };
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(progress));
-      } catch {}
+      try { localStorage.setItem(storageKey, JSON.stringify(progress)); } catch {}
       scorm?.setSuspendData?.(JSON.stringify(progress));
     };
-
     const completeCourse = () => {
       if (courseCompleted) return;
       courseCompleted = true;
       persistProgress();
       scorm?.setCompleted?.();
     };
-
     const showQuestion = (index) => {
+      if (!slides.length) return;
       current = Math.min(Math.max(index, 0), slides.length - 1);
       slides.forEach((slide, slideIndex) => slide.classList.toggle("is-hidden", slideIndex !== current));
       if (count) count.textContent = String(current + 1);
@@ -270,7 +348,6 @@ const concernEmployeeSentence = courseData.concerns.example.slice(concernEmploye
       if (next instanceof HTMLButtonElement) next.disabled = current === slides.length - 1;
       persistProgress();
     };
-
     slides.forEach((slide) => {
       slide.querySelectorAll("[data-option]").forEach((option) => {
         option.addEventListener("click", () => {
@@ -278,11 +355,16 @@ const concernEmployeeSentence = courseData.concerns.example.slice(concernEmploye
           const correct = option.getAttribute("data-correct") === "true";
           slide.querySelectorAll("[data-option]").forEach((item) => item.classList.remove("selected", "correct", "incorrect"));
           option.classList.add("selected", correct ? "correct" : "incorrect");
-          if (feedback) {
-            feedback.textContent = correct ? `Correct. ${option.getAttribute("data-feedback") || ""}` : "Not quite. Review the course content and try again.";
-            feedback.className = `assessment-feedback ${correct ? "is-correct" : "is-incorrect"}`;
+          if (correct) {
+            if (feedback) {
+              feedback.textContent = option.getAttribute("data-feedback") || "";
+              feedback.className = "assessment-feedback is-correct";
+            }
+            if (slide === slides[slides.length - 1]) completeCourse();
+          } else if (feedback) {
+            feedback.textContent = "";
+            feedback.className = "assessment-feedback";
           }
-          if (slide === slides[slides.length - 1]) completeCourse();
         });
       });
     });
@@ -307,7 +389,6 @@ const concernEmployeeSentence = courseData.concerns.example.slice(concernEmploye
       }, { threshold: 0.5 });
       completionObserver.observe(completionTarget);
     }
-
     if (courseCompleted) scorm?.setCompleted?.();
   </script>
 </CourseLayout>

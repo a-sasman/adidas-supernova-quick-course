@@ -1,7 +1,0 @@
-Heading - Arial Nova Bold (32) 
-Hex Code
-#16181d
-#669290
-#8ba0a5
-Subheadings - Arial Nova Bold (22) 
-Paragraph - Arial Nova Regular (18) 

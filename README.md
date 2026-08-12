@@ -1,6 +1,7 @@
-# Versus Socks Quick Course
+# Adidas Adizero Quick Course
 
-An Astro learning experience for retail teams, built from the supplied Versus visual board.
+An Astro learning experience covering the Adidas Adizero performance running range,
+with responsive interactions, progress persistence, and SCORM 1.2 support.
 
 ## Commands
 
@@ -8,6 +9,8 @@ An Astro learning experience for retail teams, built from the supplied Versus vi
 npm run dev
 npm run build
 npm run preview
+npm run prepare:scorm
 ```
 
-The production site is generated in `dist/` and is compatible with a standard static Netlify build.
+Course copy is kept in `src/data/course.ts` and the supplied course imagery is stored
+under `public/images/adizero`.
