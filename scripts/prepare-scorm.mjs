@@ -58,7 +58,7 @@ function manifestFor(files) {
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="ADIDAS_ADIZERO_QUICK_COURSE_SCORM_12"
+<manifest identifier="ADIDAS_SUPERNOVA_QUICK_COURSE_SCORM_12"
   version="1.0"
   xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
   xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
@@ -68,16 +68,16 @@ function manifestFor(files) {
     <schema>ADL SCORM</schema>
     <schemaversion>1.2</schemaversion>
   </metadata>
-  <organizations default="ADIZERO_ORG">
-    <organization identifier="ADIZERO_ORG">
-      <title>Adidas Adizero Course</title>
-      <item identifier="ADIZERO_ITEM" identifierref="ADIZERO_RESOURCE">
-        <title>Adidas Adizero Course</title>
+  <organizations default="SUPERNOVA_ORG">
+    <organization identifier="SUPERNOVA_ORG">
+      <title>Adidas Supernova Course</title>
+      <item identifier="SUPERNOVA_ITEM" identifierref="SUPERNOVA_RESOURCE">
+        <title>Adidas Supernova Course</title>
       </item>
     </organization>
   </organizations>
   <resources>
-    <resource identifier="ADIZERO_RESOURCE" type="webcontent" adlcp:scormtype="sco" href="index.html">
+    <resource identifier="SUPERNOVA_RESOURCE" type="webcontent" adlcp:scormtype="sco" href="index.html">
 ${fileEntries}
     </resource>
   </resources>

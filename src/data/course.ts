@@ -31,9 +31,9 @@ export type AssessmentQuestion = {
 
 export const courseData = {
   meta: {
-    title: "Adidas Adizero Course",
+    title: "Adidas Supernova Course",
     description:
-      "Learn how to identify the right Customers, recommend the best Adidas Adizero shoe for their running goal, and explain key technologies simply.",
+      "This quick course helps Totalsports store employees recommend Adidas Supernova running shoes to Customers who want everyday running comfort, support, and a stable feel for regular runs.",
   },
   nav: [
     { id: "overview", label: "Overview" },
@@ -44,97 +44,88 @@ export const courseData = {
     { id: "activity", label: "Activity" },
   ],
   welcome: {
-    title: "Adidas Adizero Course",
+    title: "Adidas Supernova Course",
     text:
-      "Every runner’s goal is different. Some Customers want a lighter, faster feel for training or race day. The Adidas Adizero range is built for these performance-focused runners. In this course, you’ll learn how to identify the right Customers, recommend the best shoe for their running goal, explain key technologies simply, and turn Customer conversations into meaningful product recommendations.",
-    image: "/images/adizero/hero-adizero.png",
-    imageAlt: "A pair of bright yellow Adidas Adizero Adios Pro 4 running shoes.",
+      "The Adidas Supernova range offers different levels of comfort, support, and stability for everyday runners. This course will help you identify what the Customer needs, choose the right Supernova shoe, and explain the recommendation with confidence.",
+    image: "/images/supernova/hero-supernova.png",
+    imageAlt: "A pair of white Adidas Supernova running shoes with neon green and orange accents.",
   },
   customerMoment: {
     title: "Customer moment",
     text:
-      "A Customer walks in and says, “I have a comfortable everyday running shoe, but I want something lighter and faster for speed sessions and race preparation.”",
-    clue: "This is a clue that Adidas Adizero may be the right range to recommend.",
-    takeaway: "Adidas Adizero is for Customers who want performance, not just everyday comfort.",
+      "A Customer walks in and says, “I want one comfortable running shoe for everyday runs, but I also need support when I go further.”",
+    clue: "This is a clue that Adidas Supernova may be the right range to recommend.",
+    takeaway: "Adidas Supernova is for Customers who want comfort and support for regular everyday running.",
   },
   basics: {
     title: "Product basics",
     intro:
-      "Adidas Adizero is a performance running range for Customers who want speed, a lightweight feel, and responsive movement during training or race preparation.",
-    recommendationLead: "Recommend Adidas Adizero when Customers say they want to:",
+      "Adidas Supernova is a running range for Customers who want everyday comfort, reliable support, and a stable feel during regular runs. It is a strong option when the Customer is running often, building distance, or asking for a shoe that feels comfortable and supportive.",
+    recommendationLead: "Recommend Adidas Supernova when Customers say they want to:",
     recommendations: [
-      "run faster or improve their pace,",
-      "train for a race, or",
-      "do tempo runs, speed sessions, or performance-focused training.",
+      "Start running more often",
+      "Feel comfortable during everyday runs",
+      "Get more support and stability when they run further or more regularly",
     ],
-    runnerImage: "/images/adizero/runner-cutout.png",
-    runnerAlt: "A runner in yellow sportswear preparing to sprint.",
-    benefitsImage: "/images/adizero/key-benefits.jpg",
-    benefitsAlt: "Runners wearing bright Adidas Adizero shoes during a run.",
+    runnerImage: "/images/supernova/runner-cutout.png",
+    runnerAlt: "A runner wearing white Adidas Supernova running shoes.",
+    benefitsImage: "/images/supernova/key-benefits.jpg",
+    benefitsAlt: "A runner wearing white Adidas Supernova running shoes with neon green and orange accents.",
     benefitsTitle: "Key benefits:",
     benefits:
-      "Lightweight feel, responsive movement, and support for faster training or race preparation.",
+      "Dreamstrike + cushioning, Support Rods, and the Guide Your Ride support platform help Customers experience everyday comfort, reliable support, and a more stable ride during regular runs.",
   },
   range: {
-    title: "Adidas Adizero range overview",
+    title: "Adidas Supernova range overview",
     intro:
-      "Start with the Customer’s running goal. Then use the table to choose the most suitable Adizero option.",
+      "Start with the Customer’s comfort and support need. Then use the table to choose the most suitable Supernova option.",
     cards: [
       {
-        customerNeed: "Race day and marathon performance",
-        option: "Adizero Adios Pro 4",
-        cue: "Recommend when the Customer wants a light, fast race shoe for longer race distances.",
-        image: "/images/adizero/adios-pro-4-action.jpg",
-        alt: "Runners wearing Adidas Adizero Adios Pro 4 shoes.",
+        customerNeed: "Everyday running comfort",
+        option: "Supernova Rise",
+        cue: "Recommend when the Customer wants a comfortable shoe for regular daily runs.",
+        image: "/images/supernova/supernova-rise-card.jpg",
+        alt: "A pair of white Adidas Supernova Rise running shoes outdoors.",
       },
       {
-        customerNeed: "Fast training, speed work, or tempo runs",
-        option: "Adizero Boston 13, Adizero Evo SL, Adizero SL 2",
-        cue: "Recommend when the Customer wants to train faster or prepare for race day.",
-        image: "/images/adizero/fast-training-range.jpg",
-        alt: "A pair of black and green Adidas Adizero performance running shoes.",
+        customerNeed: "Comfort with extra support for longer runs",
+        option: "Supernova Prima 2",
+        cue: "Recommend when the Customer wants dialled-up comfort and exceptional support over longer everyday runs.",
+        image: "/images/supernova/supernova-prima-2-card.jpg",
+        alt: "A pair of black Adidas Supernova Prima 2 running shoes outdoors.",
       },
       {
-        customerNeed: "Advanced or high-mileage performance training",
-        option: "Adizero Prime X 3 Strung",
-        cue: "Recommend when the Customer wants a high-energy training shoe for long, performance-focused runs.",
-        image: "/images/adizero/prime-x-3-strung.jpg",
-        alt: "A teal Adidas Adizero Prime X 3 Strung running shoe.",
-      },
-      {
-        customerNeed: "Purposeful short-distance training",
-        option: "Duramo Speed 2",
-        cue: "Recommend when the Customer needs a lightweight training shoe for shorter runs up to 10 km, with cushioning that feels stable and responsive during quicker sessions.",
-        image: "/images/adizero/duramo-speed-2.jpg",
-        alt: "A runner putting on Adidas Duramo Speed 2 running shoes.",
+        customerNeed: "More stability and guided support",
+        option: "Supernova Solution 3",
+        cue: "Recommend when the Customer wants everyday comfort with elevated support and a more guided feel.",
+        image: "/images/supernova/supernova-solution-3-card.jpg",
+        alt: "A runner wearing grey Adidas Supernova Solution 3 running shoes.",
       },
     ] as ProductCard[],
-    statement:
-      "Adidas Adizero is Adidas' dedicated speed-focused performance running range designed for runners who want to train or race faster.",
   },
   technology: {
     title: "How to explain the technology",
     intro:
       "Keep technology explanations short. Start with the feature, explain the Customer benefit, then use a simple selling phrase.",
-    image: "/images/adizero/technology-exploded.png",
-    imageAlt: "An exploded view of the layered technology inside an Adidas Adizero running shoe.",
+    image: "/images/supernova/technology-exploded.png",
+    imageAlt: "An exploded view of the layered technology inside an Adidas Supernova running shoe.",
     items: [
       {
-        feature: "Lightstrike Pro or Lightstrike 2.0",
-        benefit: "Helps the shoe feel light, cushioned, and fast.",
-        phrase: "“This gives you a light, cushioned feel for faster runs.”",
+        feature: "Dreamstrike+ cushioning",
+        benefit: "Helps the Customer feel comfortable during daily runs.",
+        phrase: "“This shoe is made to feel comfortable for your everyday runs.”",
         hotspot: 1,
       },
       {
-        feature: "Energyrods 2.0",
-        benefit: "Helps the shoe feel responsive when the Customer pushes off.",
-        phrase: "“This helps the shoe feel quick when you pick up the pace.”",
+        feature: "Support Rods",
+        benefit: "Helps the Customer feel steady when they run more often or go further.",
+        phrase: "“This option gives you support when your runs get longer or more regular.”",
         hotspot: 2,
       },
       {
-        feature: "Lightweight outsole or breathable upper",
-        benefit: "Keeps the shoe light while supporting grip and comfort.",
-        phrase: "“This keeps the shoe light while helping you feel secure during your run.”",
+        feature: "Guide Your Ride support platform",
+        benefit: "Helps the Customer feel more controlled while running.",
+        phrase: "“This shoe helps your run feel more stable and guided.”",
         hotspot: 3,
       },
     ] as TechnologyItem[],
@@ -142,106 +133,103 @@ export const courseData = {
   selling: {
     title: "Key selling message",
     intro:
-      "Use a simple flow: ask one question, listen for the running goal, then recommend one Adidas Adizero option with one clear benefit.",
-    flowLead: "Use this three-step flow:",
+      "Use a simple flow: ask one clear question, listen for the Customer’s running need, then recommend one Adidas Supernova option with one benefit that matches that need.",
     steps: [
-      { title: "Ask:", text: "“What type of running are you doing?”" },
+      {
+        title: "Ask:",
+        text: "“What type of running are you doing, and what do you want the shoe to feel like?”",
+      },
       {
         title: "Listen:",
-        text: "Is the Customer talking about racing, speed work, tempo runs, faster training, or short-distance performance?",
+        text: "Is the Customer talking about everyday comfort, support for longer runs, or a more stable feel?",
       },
       {
         title: "Recommend:",
-        text: "Match the shoe to the Customer’s goal and explain one clear benefit.",
+        text: "Match the shoe to the Customer’s need and explain one clear benefit.",
       },
     ],
     example:
-      "Example recommendation: “Because you are training for faster 10 km runs, I would show you the Adizero Boston 13. It is built for speed work and tempo runs, so it gives you a fast training feel while still offering cushioning and grip.”",
+      "Example recommendation: “Because you run three times a week and want extra support on longer runs, I would show you the Supernova Prima 2. It gives you dialled-up comfort with exceptional support for longer runs.”",
   },
   scenario: {
     title: "Customer scenario",
     intro:
       "Use this example to see how a store employee can move from Customer need to product recommendation.",
     customer:
-      "Customer says: “I’m training for faster 10 km runs and want something that feels light and quick.”",
+      "Customer says: “I run three times a week. I want a comfortable shoe, but I also want extra support when I do longer runs.”",
     employee:
-      "Store employee says: “Based on your goal, I would show you the Adidas Adizero Boston 13. It is built for speed work and tempo runs, so it gives you a fast training feel while still offering cushioning and grip.”",
+      "Store employee says: “Based on your goal, I would show you the Adidas Supernova Prima 2. It gives you dialled-up comfort with exceptional support for longer everyday runs.”",
     branches: [
       {
         ask: "“What type of running are you doing?”",
-        match: "Race day or marathon performance",
-        recommend: "Show Adizero Adios Pro 4.",
-        image: "/images/adizero/adios-pro-4-product.png",
-        alt: "Adidas Adizero Adios Pro 4 running shoe.",
+        match: "Everyday running comfort",
+        recommend: "Show Supernova Rise.",
+        image: "/images/supernova/supernova-rise.png",
+        alt: "A white Adidas Supernova Rise running shoe.",
       },
       {
-        ask: "“Are you training for faster runs or speed sessions?”",
-        match: "Speed work, tempo runs, or race preparation",
-        recommend: "Show Adizero Boston 13, Adizero Evo SL, or Adizero SL 2.",
-        image: "/images/adizero/evo-sl-product.png",
-        alt: "Adidas Adizero Evo SL running shoe.",
+        ask: "“Do you want extra support for longer runs?”",
+        match: "Comfort with extra support",
+        recommend: "Show Supernova Prima 2.",
+        image: "/images/supernova/supernova-prima-2.png",
+        alt: "A black Adidas Supernova Prima 2 running shoe.",
       },
       {
-        ask: "“Are you doing longer performance-focused runs?”",
-        match: "High-mileage performance training",
-        recommend: "Show Adizero Prime X 3 Strung.",
-        image: "/images/adizero/prime-x-3-product.png",
-        alt: "Adidas Adizero Prime X 3 Strung running shoe.",
-      },
-      {
-        ask: "“Are you training up to 10 km?”",
-        match: "Purposeful short-distance training",
-        recommend: "Show Duramo Speed 2.",
-        image: "/images/adizero/duramo-speed-2-product.png",
-        alt: "Adidas Duramo Speed 2 running shoe.",
+        ask: "“Do you want a more stable and guided feel?”",
+        match: "More stability and guided support",
+        recommend: "Show Supernova Solution 3.",
+        image: "/images/supernova/supernova-solution-3.png",
+        alt: "A white Adidas Supernova Solution 3 running shoe.",
       },
     ] as ScenarioBranch[],
   },
   assessment: {
     title: "Practice knowledge check",
     intro: "Read each Customer scenario and choose the best response.",
+    instruction:
+      "Complete the questions at the end of the course. To pass, you must choose the best Customer question or product recommendation based on the Customer’s running need.",
     questions: [
       {
         scenario:
-          "Scenario 1: A Customer says, “I already have a comfortable everyday running shoe. Now I want something lighter for speed sessions and race preparation.”",
+          "Scenario: A Customer says, “I run after work a few times a week, but my feet feel tired on longer runs.”",
         question: "Question: What is the best response?",
         options: [
-          "Recommend a casual lifestyle shoe because the Customer already runs regularly.",
-          "Recommend Adidas Adizero Boston 13 because the Customer wants a lighter shoe for speed sessions and race preparation.",
-          "Recommend Duramo Speed 2 because the Customer wants a shoe only for short, easy runs.",
-          "Recommend any Adidas running shoe because all running shoes are designed for the same goal.",
+          "“Do you want the cheapest running shoe?”",
+          "“How often do you run, and do you need more comfort, support, or both?”",
+          "“Do you prefer a black or white shoe?”",
+          "“Are you only buying the shoe because it is Adidas?”",
         ],
         correctIndex: 1,
         feedback:
-          "Feedback: Correct. Adidas Adizero Boston 13 is the best option because the Customer wants a lighter shoe for speed sessions and race preparation. A casual shoe or everyday running shoe would not match the Customer’s performance goal.",
+          "Feedback: The best answer is B. This question helps the store employee understand the Customer’s running routine and whether they need comfort, support, or both.",
       },
       {
         scenario:
-          "Scenario 2: A Customer says, “I am training for my first marathon and want a shoe that feels light and fast on race day.”",
-        question: "Question: What is the best recommendation?",
+          "Scenario 2: A Customer says, “I want a running shoe that feels steady when I run longer distances.”",
+        question: "Question: Which Supernova shoe best matches this Customer need?",
         options: [
-          "Recommend Adidas Adizero Adios Pro 4 because the Customer wants a light, fast race-day shoe for a longer distance.",
-          "Recommend Adidas Adizero SL 2 because the Customer only needs an everyday running shoe.",
-          "Recommend Duramo Speed 2 because the Customer only wants a shoe for short training runs.",
-          "Recommend a lifestyle sneaker because marathon running does not need a performance shoe.",
-        ],
-        correctIndex: 0,
-        feedback:
-          "Feedback: Correct. Adidas Adizero Adios Pro 4 is the best option because the Customer is preparing for a marathon and wants a light, fast race-day shoe for a longer distance.",
-      },
-      {
-        scenario:
-          "Scenario 3: A Customer says, “I usually run shorter distances, up to 10 km, and I want a lightweight shoe that feels quick during training.”",
-        question: "Question: What is the best recommendation?",
-        options: [
-          "Recommend Adizero Adios Pro 4 because the Customer is preparing for marathon race day.",
-          "Recommend Adizero Prime X 3 Strung because the Customer is doing long, high-mileage performance runs.",
-          "Recommend Duramo Speed 2 because the Customer wants a lightweight option for purposeful training up to 10 km.",
-          "Recommend a casual lifestyle sneaker because the Customer only needs comfort for everyday wear.",
+          "Fashion styling for everyday outfits.",
+          "Lightweight feel for racing only.",
+          "Supernova Prima 2, because it offers comfort with extra support for longer everyday runs.",
+          "Colour options that match the Customer’s clothing.",
         ],
         correctIndex: 2,
         feedback:
-          "Feedback: Correct. Duramo Speed 2 is the best option because the Customer wants a lightweight shoe for purposeful training up to 10 km. The other options are better suited to marathon race day, long high-mileage runs, or everyday lifestyle comfort.",
+          "Feedback: The best answer is C. The Customer asked for a steady feel on longer runs, so Supernova Prima 2 is the best match because it gives comfort with extra support for longer everyday runs.",
+      },
+      {
+        scenario:
+          "A Customer says, “I am starting to run more often. I want one shoe for daily runs, but I need it to feel stable and supportive.”",
+        question: "Question 3: Select the most suitable Supernova shoe",
+        options: [
+          "Recommend a lifestyle sneaker because the Customer is new to running.",
+          "Recommend Supernova Solution 3 because the Customer wants daily running comfort with more stability and support.",
+          "Recommend any Supernova shoe because all running shoes meet the same need.",
+          "Recommend the lightest shoe in store because the Customer wants to run more often.",
+        ],
+        correctIndex: 1,
+        feedback:
+          "Feedback: The best answer is B. The Customer asked for one daily running shoe with a stable and supportive feel, so Supernova Solution 3 is the best match.",
       },
     ] as AssessmentQuestion[],
   },

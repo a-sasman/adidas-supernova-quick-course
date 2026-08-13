@@ -1,6 +1,6 @@
-# Adidas Adizero Quick Course
+# Adidas Supernova Quick Course
 
-An Astro learning experience covering the Adidas Adizero performance running range,
+An Astro learning experience covering the Adidas Supernova everyday running range,
 with responsive interactions, progress persistence, and SCORM 1.2 support.
 
 ## Commands
@@ -13,4 +13,4 @@ npm run prepare:scorm
 ```
 
 Course copy is kept in `src/data/course.ts` and the supplied course imagery is stored
-under `public/images/adizero`.
+under `public/images/supernova`.

@@ -53,7 +53,7 @@ import { courseData } from "../data/course";
             <div class="runner-panel">
               <img class="ts-watermark" src="/ts-logomark.svg" alt="" aria-hidden="true" />
               <img class="runner-athlete" src={courseData.basics.runnerImage} alt={courseData.basics.runnerAlt} />
-              <img class="runner-mobile-composite" src="/images/adizero/recommendation-mobile.png" alt={courseData.basics.runnerAlt} />
+              <img class="runner-mobile-composite" src="/images/supernova/runner-mobile-composite.png" alt={courseData.basics.runnerAlt} />
             </div>
             <div class="recommendations-panel">
               <p>{courseData.basics.recommendationLead}</p>
@@ -64,7 +64,7 @@ import { courseData } from "../data/course";
           </div>
           <div class="benefits-copy">
             <h3>{courseData.basics.benefitsTitle}</h3>
-            <p><strong>Lightweight feel, responsive movement,</strong> and support for <strong>faster training</strong> or <strong>race preparation.</strong></p>
+            <p><strong>Dreamstrike + cushioning, Support Rods,</strong> and the <strong>Guide Your Ride support platform</strong> help Customers experience everyday comfort, reliable support, and a more stable ride during regular runs.</p>
           </div>
           <img class="benefits-image" src={courseData.basics.benefitsImage} alt={courseData.basics.benefitsAlt} />
         </div>
@@ -88,7 +88,7 @@ import { courseData } from "../data/course";
                 <span class="range-card-inner">
                   <span class="range-card-face range-card-front" aria-hidden="false">
                     <img src={card.image} alt={card.alt} />
-                    <span class="range-card-title"><span class="sr-only">Adizero option: </span>{card.option}</span>
+                    <span class="range-card-title"><span class="sr-only">Supernova option: </span>{card.option}</span>
                   </span>
                   <span class="range-card-face range-card-back" aria-hidden="true">
                     <span class="range-card-detail">
@@ -105,8 +105,6 @@ import { courseData } from "../data/course";
             </article>
           ))}
         </div>
-        <p class="range-statement container">{courseData.range.statement}</p>
-
         <div class="technology container">
           <div class="section-heading technology-heading">
             <h3>{courseData.technology.title}</h3>
@@ -115,6 +113,7 @@ import { courseData } from "../data/course";
           <div class="technology-grid">
             <div class="technology-visual">
               <img src={courseData.technology.image} alt={courseData.technology.imageAlt} />
+              <img class="technology-mobile-graphic" src="/images/supernova/technology-mobile-hotspots.png" alt={courseData.technology.imageAlt} />
               {courseData.technology.items.map((item, index) => (
                 <button
                   class:list={["hotspot", `hotspot--${index + 1}`, index === 0 && "is-active"]}
@@ -123,12 +122,6 @@ import { courseData } from "../data/course";
                   aria-label={`Show ${item.feature}`}
                 >{item.hotspot}</button>
               ))}
-              <button
-                class="hotspot hotspot--1-secondary is-active"
-                type="button"
-                data-technology="0"
-                aria-label={`Show ${courseData.technology.items[0].feature}`}
-              >1</button>
             </div>
             <div class="technology-accordion">
               {courseData.technology.items.map((item, index) => (
@@ -137,7 +130,7 @@ import { courseData } from "../data/course";
                     <span>{item.hotspot}</span><span class="sr-only">Feature: </span>{item.feature}
                   </button>
                   <div class="technology-detail" hidden={index !== 0}>
-                    <div><strong>Customer benefit</strong><p>{item.benefit}</p></div>
+                    <div><strong>Benefit</strong><p>{item.benefit}</p></div>
                     <div class="selling-phrase"><strong>Say it like this</strong><p>{item.phrase}</p></div>
                   </div>
                 </article>
@@ -152,7 +145,6 @@ import { courseData } from "../data/course";
           <h2>How to Sell</h2>
           <h3>{courseData.selling.title}</h3>
           <p>{courseData.selling.intro}</p>
-          <p class="flow-lead">{courseData.selling.flowLead}</p>
         </div>
         <div class="container flow-grid">
           {courseData.selling.steps.map((step, index) => (
@@ -219,6 +211,7 @@ import { courseData } from "../data/course";
           <div class="assessment-heading">
             <h2>{courseData.assessment.title}</h2>
             <p>{courseData.assessment.intro}</p>
+            <p>{courseData.assessment.instruction}</p>
           </div>
           <div class="assessment-stage" aria-live="polite">
             {courseData.assessment.questions.map((question, questionIndex) => (
@@ -260,7 +253,7 @@ import { courseData } from "../data/course";
   </div>
 
   <script>
-    const storageKey = "adidas-adizero-course-progress-v1";
+    const storageKey = "adidas-supernova-course-progress-v1";
     const scorm = (window as any).CourseSCORM;
     const navToggle = document.querySelector(".nav-toggle");
     const links = document.querySelector(".course-links");
@@ -279,7 +272,7 @@ import { courseData } from "../data/course";
         const flipped = card.getAttribute("aria-pressed") !== "true";
         card.setAttribute("aria-pressed", String(flipped));
         card.classList.toggle("is-flipped", flipped);
-        card.setAttribute("aria-label", `${flipped ? "Show product" : "Show details"} for ${card.querySelector(".range-card-title")?.textContent?.trim() || "Adizero option"}`);
+        card.setAttribute("aria-label", `${flipped ? "Show product" : "Show details"} for ${card.querySelector(".range-card-title")?.textContent?.trim() || "Supernova option"}`);
         card.querySelector(".range-card-front")?.setAttribute("aria-hidden", String(flipped));
         card.querySelector(".range-card-back")?.setAttribute("aria-hidden", String(!flipped));
       });
@@ -304,6 +297,18 @@ import { courseData } from "../data/course";
         showTechnology(index);
       });
     });
+
+    const technologyMobileQuery = window.matchMedia("(max-width: 760px)");
+    const setMobileHotspotState = () => {
+      document.querySelectorAll(".hotspot").forEach((hotspot) => {
+        const isMobile = technologyMobileQuery.matches;
+        hotspot.toggleAttribute("disabled", isMobile);
+        hotspot.tabIndex = isMobile ? -1 : 0;
+        hotspot.setAttribute("aria-hidden", String(isMobile));
+      });
+    };
+    setMobileHotspotState();
+    technologyMobileQuery.addEventListener("change", setMobileHotspotState);
 
     document.querySelectorAll(".branch-ask").forEach((button) => {
       button.addEventListener("click", () => {
@@ -355,16 +360,11 @@ import { courseData } from "../data/course";
           const correct = option.getAttribute("data-correct") === "true";
           slide.querySelectorAll("[data-option]").forEach((item) => item.classList.remove("selected", "correct", "incorrect"));
           option.classList.add("selected", correct ? "correct" : "incorrect");
-          if (correct) {
-            if (feedback) {
-              feedback.textContent = option.getAttribute("data-feedback") || "";
-              feedback.className = "assessment-feedback is-correct";
-            }
-            if (slide === slides[slides.length - 1]) completeCourse();
-          } else if (feedback) {
-            feedback.textContent = "";
-            feedback.className = "assessment-feedback";
+          if (feedback) {
+            feedback.textContent = option.getAttribute("data-feedback") || "";
+            feedback.className = `assessment-feedback ${correct ? "is-correct" : "is-incorrect"}`;
           }
+          if (correct && slide === slides[slides.length - 1]) completeCourse();
         });
       });
     });

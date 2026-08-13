@@ -60,20 +60,19 @@ try {
     if (!response?.ok()) errors.push(`${viewport.name} returned HTTP ${response?.status() ?? "unknown"}`);
 
     const title = await page.title();
-    if (title !== "Adidas Adizero Course") errors.push(`${viewport.name} has unexpected title: ${title}`);
+    if (title !== "Adidas Supernova Course") errors.push(`${viewport.name} has unexpected title: ${title}`);
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     if (overflow) errors.push(`${viewport.name} has horizontal page overflow`);
 
     const flipCards = page.locator(".range-card-toggle");
-    if (await flipCards.count() !== 4) errors.push(`${viewport.name} does not render four product flip cards`);
+    if (await flipCards.count() !== 3) errors.push(`${viewport.name} does not render three product flip cards`);
     const expectedCardDetails = [
-      ["Race day and marathon performance", "Recommend when the Customer wants a light, fast race shoe for longer race distances."],
-      ["Fast training, speed work, or tempo runs", "Recommend when the Customer wants to train faster or prepare for race day."],
-      ["Advanced or high-mileage performance training", "Recommend when the Customer wants a high-energy training shoe for long, performance-focused runs."],
-      ["Purposeful short-distance training", "Recommend when the Customer needs a lightweight training shoe for shorter runs up to 10 km, with cushioning that feels stable and responsive during quicker sessions."],
+      ["Everyday running comfort", "Recommend when the Customer wants a comfortable shoe for regular daily runs."],
+      ["Comfort with extra support for longer runs", "Recommend when the Customer wants dialled-up comfort and exceptional support over longer everyday runs."],
+      ["More stability and guided support", "Recommend when the Customer wants everyday comfort with elevated support and a more guided feel."],
     ];
-    for (let cardIndex = 0; cardIndex < 4; cardIndex += 1) {
+    for (let cardIndex = 0; cardIndex < 3; cardIndex += 1) {
       const flipCard = flipCards.nth(cardIndex);
       const initialHeight = await flipCard.evaluate((element) => element.getBoundingClientRect().height);
       const backText = (await flipCard.locator(".range-card-back").innerText()).replace(/\s+/g, " ");
@@ -107,9 +106,21 @@ try {
       errors.push(`${viewport.name} branching scenario did not select a path`);
     }
 
+    await page.locator('.assessment-slide:not(.is-hidden) .assessment-options button[data-correct="false"]').first().click();
+    if (!(await page.locator(".assessment-feedback").first().textContent())?.trim()) {
+      errors.push(`${viewport.name} assessment feedback did not render after an incorrect answer`);
+    }
     await page.locator('.assessment-slide:not(.is-hidden) .assessment-options button[data-correct="true"]').click();
     if (!(await page.locator(".assessment-feedback").first().textContent())?.trim()) {
-      errors.push(`${viewport.name} assessment feedback did not render`);
+      errors.push(`${viewport.name} assessment feedback did not render after a correct answer`);
+    }
+    const expectedCorrectAnswers = [1, 2, 1];
+    for (let questionIndex = 0; questionIndex < expectedCorrectAnswers.length; questionIndex += 1) {
+      const slide = page.locator(`.assessment-slide[data-question="${questionIndex}"]`);
+      const markedCorrect = slide.locator('.assessment-options button[data-correct="true"]');
+      if (await markedCorrect.count() !== 1 || Number(await markedCorrect.getAttribute("data-option")) !== expectedCorrectAnswers[questionIndex]) {
+        errors.push(`${viewport.name} question ${questionIndex + 1} has incorrect answer logic`);
+      }
     }
 
     if (viewport.name === "mobile") {
