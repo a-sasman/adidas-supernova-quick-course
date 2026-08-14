@@ -234,7 +234,7 @@ h3 { font-size: var(--font-size-subheading); }
   .section-heading p:last-child { margin-bottom: 0; }
   .site-header { padding: 10px 0 var(--mobile-small-gap); }
   .course-nav { padding-inline: 12px; }
-  .hero-stage { margin-bottom: calc(var(--mobile-section-gap) + 110px); }
+  .hero-stage { margin-bottom: calc(var(--mobile-section-gap) + 65px); }
   .hero { width: min(var(--container), calc(100% - (var(--mobile-page-padding) * 2))); min-height: 0; grid-template-columns: 1fr; grid-template-rows: auto 175px; margin-bottom: 0; padding: 24px var(--mobile-page-padding) 0; background: linear-gradient(180deg, #0086a8 0%, #08a5d3 55%, #61c3e2 100%); border-radius: 18px; }
   .hero::before { display: none; }
   .hero-copy { max-width: 470px; text-align: left; transform: none; }
