@@ -84,16 +84,16 @@ import { courseData } from "../data/course";
                 type="button"
                 aria-pressed="false"
                 aria-label={`Show details for ${card.option}`}
+                data-product-option={card.option}
               >
                 <span class="range-card-inner">
                   <span class="range-card-face range-card-front" aria-hidden="false">
                     <img src={card.image} alt={card.alt} />
-                    <span class="range-card-title"><span class="sr-only">Supernova option: </span>{card.option}</span>
+                    <span class="range-card-title">{card.customerNeed}</span>
                   </span>
                   <span class="range-card-face range-card-back" aria-hidden="true">
                     <span class="range-card-detail">
-                      <strong>Customer need</strong>
-                      <span>{card.customerNeed}</span>
+                      <span>{card.option}</span>
                     </span>
                     <span class="range-card-detail">
                       <strong>Simple recommendation cue</strong>
@@ -217,7 +217,7 @@ import { courseData } from "../data/course";
             {courseData.assessment.questions.map((question, questionIndex) => (
               <article class:list={["assessment-slide", questionIndex !== 0 && "is-hidden"]} data-question={questionIndex}>
                 <div class="assessment-question">
-                  <p>{question.scenario}</p>
+                  <p><strong>Scenario {questionIndex + 1}:</strong> {question.scenario.replace(/^Scenario(?: \d+)?:\s*/, "")}</p>
                   <strong>{question.question}</strong>
                   <div class="assessment-feedback" aria-live="polite"></div>
                 </div>
@@ -272,7 +272,7 @@ import { courseData } from "../data/course";
         const flipped = card.getAttribute("aria-pressed") !== "true";
         card.setAttribute("aria-pressed", String(flipped));
         card.classList.toggle("is-flipped", flipped);
-        card.setAttribute("aria-label", `${flipped ? "Show product" : "Show details"} for ${card.querySelector(".range-card-title")?.textContent?.trim() || "Supernova option"}`);
+        card.setAttribute("aria-label", `${flipped ? "Show product" : "Show details"} for ${card.dataset.productOption || "Supernova option"}`);
         card.querySelector(".range-card-front")?.setAttribute("aria-hidden", String(flipped));
         card.querySelector(".range-card-back")?.setAttribute("aria-hidden", String(!flipped));
       });
@@ -361,7 +361,10 @@ import { courseData } from "../data/course";
           slide.querySelectorAll("[data-option]").forEach((item) => item.classList.remove("selected", "correct", "incorrect"));
           option.classList.add("selected", correct ? "correct" : "incorrect");
           if (feedback) {
-            feedback.textContent = option.getAttribute("data-feedback") || "";
+            const feedbackText = (option.getAttribute("data-feedback") || "").replace(/^Feedback:\s*/, "");
+            const feedbackLabel = document.createElement("strong");
+            feedbackLabel.textContent = "Feedback: ";
+            feedback.replaceChildren(feedbackLabel, document.createTextNode(feedbackText));
             feedback.className = `assessment-feedback ${correct ? "is-correct" : "is-incorrect"}`;
           }
           if (correct && slide === slides[slides.length - 1]) completeCourse();

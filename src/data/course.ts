@@ -78,7 +78,7 @@ export const courseData = {
   range: {
     title: "Adidas Supernova range overview",
     intro:
-      "Start with the Customer’s comfort and support need. Then use the table to choose the most suitable Supernova option.",
+      "Start with the Customer’s comfort and support need. Click on each card to reveal the most suitable Adidas Supernova option and when to recommend it.",
     cards: [
       {
         customerNeed: "Everyday running comfort",
@@ -106,7 +106,7 @@ export const courseData = {
   technology: {
     title: "How to explain the technology",
     intro:
-      "Keep technology explanations short. Start with the feature, explain the Customer benefit, then use a simple selling phrase.",
+      "Keep technology explanations short. Start with the feature, explain the Customer benefit, and then use a simple selling phrase. Click each number to learn more.",
     image: "/images/supernova/technology-exploded.png",
     imageAlt: "An exploded view of the layered technology inside an Adidas Supernova running shoe.",
     items: [
